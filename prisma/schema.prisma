@@ -1,0 +1,79 @@
+// This is your Prisma schema file for cab-aggregator-pro database
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  name      String?
+  phone     String?
+  password  String
+  role      String     @default("user")
+  avatar    String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  rides     Ride[]
+  reviews   Review[]
+
+  @@map("users")
+}
+
+model Ride {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pickupLocation  String
+  dropoffLocation String
+  pickupLat       Float
+  pickupLng       Float
+  dropoffLat      Float
+  dropoffLng      Float
+  rideType        String    @default("economy")
+  status          String    @default("requested")
+  fare            Float?
+  distance        Float?
+  duration        Int?
+  provider        String?
+  providerRideId  String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  reviews         Review[]
+
+  @@map("rides")
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rideId    String
+  ride      Ride     @relation(fields: [rideId], references: [id], onDelete: Cascade)
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("reviews")
+}
+
+model FareEstimate {
+  id              String   @id @default(cuid())
+  pickupLat       Float
+  pickupLng       Float
+  dropoffLat      Float
+  dropoffLng      Float
+  distance        Float
+  duration        Int
+  estimatedFare   Float
+  provider        String
+  rideType        String
+  createdAt       DateTime @default(now())
+
+  @@map("fare_estimates")
+}
