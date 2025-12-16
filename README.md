@@ -205,3 +205,22 @@ MIT License - See [LICENSE](./LICENSE) file
 ---
 
 **Made with ❤️ by Arpan** | [GitHub](https://github.com/arpancodez) | [Portfolio](https://arpancodez.com)
+
+
+## Architecture
+
+- Real-time ride aggregation
+- Price comparison engine
+- Dynamic pricing analysis
+- Deep-link integration
+- Analytics dashboard
+
+## Database
+
+- MongoDB for ride data
+- Redis for caching
+- Elasticsearch for search
+
+## Support
+
+For issues, contact: support@cabaggregatorpor.com
